@@ -78,8 +78,7 @@ def create_fastapi_routes(backends, oauth, handle_authorize):
             raise HTTPException(404)
 
         redirect_uri = request.url_for("auth", backend=backend)
-        if 'X-Forwarded-Proto' in request.headers:
-            redirect_uri = redirect_uri.replace('http:', request.headers['X-Forwarded-Proto'] + ':')
+        redirect_uri = redirect_uri.replace('http:', 'https:')
 
         conf_key = "{}_AUTHORIZE_PARAMS".format(backend.upper())
         params = oauth.config.get(conf_key, default={})
